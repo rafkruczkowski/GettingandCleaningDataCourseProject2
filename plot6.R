@@ -1,8 +1,16 @@
+# Libraries
 library("data.table")
 library("ggplot2")
-
+# Data files
 SCC <- data.table::as.data.table(x = readRDS(file = "data/Source_Classification_Code.rds"))
 NEI <- data.table::as.data.table(x = readRDS(file = "data/summarySCC_PM25.rds"))
+# Output
+png("plot6.png")
+###########################################################################################
+# Compare emissions from motor vehicle sources in Baltimore City with emissions from motor vehicle sources in 
+# Los Angeles County, California (\color{red}{\verb|fips == "06037"|}fips == "06037"). 
+# Which city has seen greater changes over time in motor vehicle emissions?
+###########################################################################################
 
 # Gather the subset of the NEI data which corresponds to vehicles
 condition <- grepl("vehicle", SCC[, SCC.Level.Two], ignore.case=TRUE)
@@ -19,12 +27,10 @@ vehiclesLANEI[, city := c("Los Angeles")]
 # Combine data.tables into one data.table
 bothNEI <- rbind(vehiclesBaltimoreNEI,vehiclesLANEI)
 
-png("plot6.png")
-
 ggplot(bothNEI, aes(x=factor(year), y=Emissions, fill=city)) +
   geom_bar(aes(fill=year),stat="identity") +
   facet_grid(scales="free", space="free", .~city) +
   labs(x="year", y=expression("Total PM"[2.5]*" Emission (Kilo-Tons)")) + 
   labs(title=expression("PM"[2.5]*" Motor Vehicle Source Emissions in Baltimore & LA, 1999-2008"))
-
+# Save to file
 dev.off()
