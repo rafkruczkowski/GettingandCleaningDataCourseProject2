@@ -11,12 +11,10 @@ png(filename='plot1.png')
 # from all sources for each of the years 1999, 2002, 2005, and 2008.
 ##########################################################################################
 # Modify output notation
-NEI[, Emissions := lapply(.SD, as.numeric), .SDcols = c("Emissions")]
+options(scipen=5)
 # Create new data frame with emissions by year
 totalNEI <- NEI[, lapply(.SD, sum, na.rm = TRUE), .SDcols = c("Emissions"), by = year]
 # Pot values with Years and Emissions
 barplot(totalNEI[, Emissions], names = totalNEI[, year], xlab = "Years", ylab = "Emissions", main = "Emissions 1999 to 2008")
 # Save to file     
 dev.off()
-
-NEI[, Emissions := lapply(.SD, /1000), .SDcols = c("Emissions")]

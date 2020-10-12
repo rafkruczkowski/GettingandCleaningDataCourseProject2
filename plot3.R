@@ -12,11 +12,10 @@ png("plot3.png")
 # Which have seen increases in emissions from 1999–2008? 
 # Use the ggplot2 plotting system to make a plot answer this question.
 ###########################################################################################
-
 # Subset NEI data by Baltimore
 baltimoreNEI <- NEI[fips=="24510",]
-
+# Plot values by year grouped by type
 ggplot(baltimoreNEI,aes(factor(year),Emissions,fill=type)) + geom_bar(stat="identity") + facet_grid(.~type,scales = "free",space="free") + 
-  labs(x="year", y=expression("Total PM"[2.5]*" Emission (Tons)")) +  labs(title=expression("PM"[2.5]*" Emissions, Baltimore City 1999-2008 by Source Type"))
+  labs(x="year", y=expression("Total PM"[2.5]*" Emission (Tons)")) + theme(axis.text.x=element_text(angle = 90, vjust = 0.5)) +  labs(title=expression("PM"[2.5]*" Emissions, Baltimore City 1999-2008 by Source Type"))
 # Save to file
 dev.off()
